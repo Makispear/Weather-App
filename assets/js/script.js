@@ -4,13 +4,14 @@ let searchFormEl = document.getElementById('searchFormEl');
 let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
 
 let getWeatherApi = (SearchInput) => {
-    let apiUrl = `api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}`
+    let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}`
     fetch(apiUrl)
     .then((response) => {
         if (response.ok) {
             response.json()
             .then((data) => {
                 console.log(data)
+                displayWeather(data)
             })
         } else {
             alert(`Error: Information Not Found!`)
@@ -31,6 +32,10 @@ let formSubmitHandler = (e) => {
     } else {
         alert("Please Enter a Valid City Name!")
     }
+}
+
+let displayWeather = (res, city) => {
+
 }
 
 searchFormEl.addEventListener('submit', formSubmitHandler)
