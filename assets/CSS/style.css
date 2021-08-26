@@ -5,5 +5,16 @@
 }
 
 body {
-	background-color: rgb(63, 63, 63);
+    background-color: rgb(224, 236, 255);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#title {
+    font-family: 'Bebas Neue', cursive;
+    background: rgb(73,101,154);
+    background: linear-gradient(90deg, rgba(73,101,154,1) 0%, rgba(8,39,136,1) 100%);
+}
+
+#searchBtn {
+    background: rgb(90, 171, 221)
 }

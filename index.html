@@ -4,10 +4,102 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <title>Weather App</title>
 </head>
 <body>
+    <div class="container-fluid">
+        <!-- nav -->
+        <div id="title" class="row">
+            <div class="col">
+                <h1 class="p-2 text-center text-light fw-bold">Weather<span class="text-warning fw-normal"><i class="fas fa-sun"></i></span>App</h1>
+            </div>
+        </div>
+        <!-- search side  -->
+        <div class="row">
+            <!-- form  -->
+            <div class="col-3 text-dark rounded p-2">
+                <!-- search  -->
+                <div class="card col p-1">
+                <form id="searchForm" class="card-body d-flex flex-column">
+                    <label for="search" class="form-label p-1 m-1 fs-2">Search For a City:</label>
+                    <input name="city" type="text" autofocus="true" id="search" class="form-input  p-2 m-1" placeholder="Tokyo">
+                    <button id="searchBtn" type="submit" class="btn text-light p-2 m-1">Search</button>
+                </form>
+                </div>
+                <!-- cities  -->
+                <div class="d-flex flex-column">
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                    <button class="bg-secondary p-2 rounded text-light my-2">dsfku</button>
+                </div>
+            </div>
+            <!-- results  -->
+            <div class="col-9 p-2 text-dark">
+                <!-- atlanta part  -->
+                <div class="col p-2 rounded shadow-sm bg-light">
+                    <h2>Atlanta</h2>
+                    <p>temp</p>
+                    <p>wind</p>
+                    <p>humidity</p>
+                    <p>Uv Index</p>
+                </div>
+                <!-- 2nd title  -->
+                <div class="col">
+                    <h2>skdfjb</h2>
+                </div>
+                <!-- grid  -->
+                <div class="row">
+                    <div class="col bg-light m-1">
+                        <p>date</p>
+                        <p>emoji</p>
+                        <p>temp</p>
+                        <p>wind</p>
+                        <p>humidity</p>
+                    </div>
+                    <div class="col bg-light m-1">
+                        <p>date</p>
+                        <p>emoji</p>
+                        <p>temp</p>
+                        <p>wind</p>
+                        <p>humidity</p>
+                    </div>
+                    <div class="col bg-light m-1">
+                        <p>date</p>
+                        <p>emoji</p>
+                        <p>temp</p>
+                        <p>wind</p>
+                        <p>humidity</p>
+                    </div>
+                    <div class="col bg-light m-1">
+                        <p>date</p>
+                        <p>emoji</p>
+                        <p>temp</p>
+                        <p>wind</p>
+                        <p>humidity</p>
+                    </div>
+                    <div class="col bg-light m-1">
+                        <p>date</p>
+                        <p>emoji</p>
+                        <p>temp</p>
+                        <p>wind</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script src="assets/js/script.js"></script>
 </body>
