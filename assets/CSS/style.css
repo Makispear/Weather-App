@@ -22,3 +22,8 @@ body {
 #searchBtn {
 	background: rgb(90, 171, 221);
 }
+
+.five-day-item {
+	background-color: rgb(29, 26, 37);
+	color: azure;
+}
