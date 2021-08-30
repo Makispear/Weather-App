@@ -4,26 +4,30 @@ let searchBtn = document.getElementById('searchBtn');
 let searchFormEl = document.getElementById('searchFormEl');
 let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
 let dateHolder = "(Aug/22/2021)" 
+let daysCount = 5;
 
 let getWeatherApi = (SearchInput) => {
-    let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}`
+    let apiUrl = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${SearchInput}&cnt=${daysCount}&appid=${apiKey}`
     fetch(apiUrl)
     .then((response) => {
         if (response.ok) {
             response.json()
             .then((data) => {
-                console.log(data)
-                console.log(data.main[3])
-                displayWeather(data, SearchInput)
+                if (console.error) {
+                    alert(console.error)
+                } else {
+                    console.log('1st')
+                    console.log(data)
+                }
+                displayCurrentWeather(data, SearchInput)
             })
         } else {
-            alert(`Error: Information Not Found!`)
+            alert(`Error: Information Not Found! (1)`)
         }
     })
     .catch((error) => {
-        alert(`Sorry couldn't get information. Please Try agin or Contact us.`);
+        alert(error);
       });
-    
 }
 
 let formSubmitHandler = (e) => {
@@ -38,12 +42,12 @@ let formSubmitHandler = (e) => {
     cityName.value = "";
 }
 
-let displayWeather = (res, city) => {
-    let resultsColumn = document.getElementById('resultsColumn') // 1
+let displayCurrentWeather = (res, city) => {
+    let resultsColumn = document.getElementById('resultsColumn') 
     resultsColumn.innerHTML = ""
-    // create items 
+    // create items for current weather  
     let mainInfo = document.createElement('div')
-        mainInfo.classList = `col p-2 rounded shadow-sm bg-light` // 1.a
+        mainInfo.classList = `col p-2 rounded shadow-sm bg-light` 
     let title = document.createElement("h2") //1.aa
         title.textContent = `${city} ${dateHolder}`;
         title.classList = `bold`
@@ -54,7 +58,7 @@ let displayWeather = (res, city) => {
     let thirdP = document.createElement('p')
         thirdP.textContent = `Humidity: ${res.main['humidity']} %`
     let forthP = document.createElement('p')
-        forthP.innerHTML = `<span class="iv-index">UV Index: ${res.main['humidity']}</span>`
+        forthP.innerHTML = `<span class="iv-index">UV Index: 0.${res.main['humidity']}</span>`
     // append to page 
     mainInfo.appendChild(title)
     mainInfo.appendChild(firstP)
@@ -62,12 +66,25 @@ let displayWeather = (res, city) => {
     mainInfo.appendChild(thirdP)
     mainInfo.appendChild(forthP)
     resultsColumn.appendChild(mainInfo);
+    // displaying buttons to page function
+    displayButton(city)
 
+}
+
+let displayButton = (city) => {
     let cityButtons = document.getElementById('cityButtons')
-    var cityButton = document.createElement('button')
+    let cityButton = document.createElement('button')
     cityButton.innerText = `${city}`
     cityButton.classList = 'bg-secondary p-2 rounded text-light my-2' 
     cityButtons.appendChild(cityButton);
 }
 
 searchFormEl.addEventListener('submit', formSubmitHandler)
+
+
+                   
+
+ 
+ 
+                 
+
