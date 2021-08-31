@@ -9,7 +9,6 @@ var fiveDays = []
 let daysCount = 5;
 
 let getWeatherApi = (SearchInput) => {
-    debugger
     let apiUrl1 = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
     let apiUrl2 = `http://api.openweathermap.org/data/2.5/forecast?q=${SearchInput}&appid=${apiKey}&units=imperial`
     fetch(apiUrl1)
@@ -34,10 +33,13 @@ let getWeatherApi = (SearchInput) => {
         if (response.ok) {
             response.json()
             .then((data) => {
+                console.log('2nd data')
+                console.log(data)
                 for (i = 0; i < data.list.length; i += 8) {
                     fiveDays.push(data.list[i])
                 }
-                debugger
+                console.log('five days')
+                console.log(fiveDays)
             })
         } else {
             alert('Error 2')
@@ -49,7 +51,6 @@ let getWeatherApi = (SearchInput) => {
 }
 
 let formSubmitHandler = (e) => {
-    debugger
     e.preventDefault()
     let cityName = SearchInput.value
     if (cityName) {
@@ -86,7 +87,7 @@ let displayCurrentWeather = (res, city) => {
     resultsColumn.appendChild(mainInfo);
     // displaying buttons to page function
     displayButton(city)
-    displayFivedays()
+    displayFiveDays()
 }
 
 let displayButton = (city) => {
@@ -98,8 +99,7 @@ let displayButton = (city) => {
 }
 
 
-let displayFivedays = () => {
-    debugger
+let displayFiveDays = () => {
     let createTitle = document.createElement("div")
         createTitle.classList = 'col'
     let createH2 = document.createElement('h2')
@@ -110,7 +110,7 @@ let displayFivedays = () => {
     createGrid.classList = 'row'
     for (i = 0; i < fiveDays.length; i++) {
         let nextDay = document.createElement('div')
-        nextDay.classList = 'col m-1 five-day-item'
+        nextDay.classList = 'col m-1 five-day-item p-3'
         let firstP = document.createElement('p')
         firstP.textContent = `${fiveDays[i].dt_text}`
         let secondP = document.createElement('p')
@@ -132,7 +132,7 @@ let displayFivedays = () => {
         resultsColumn.appendChild(createGrid)
     }
     fiveDays = []
-    debugger
+    
 }
 
 searchFormEl.addEventListener('submit', formSubmitHandler)
