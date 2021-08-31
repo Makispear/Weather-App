@@ -9,6 +9,7 @@ var fiveDays = []
 let daysCount = 5;
 
 let getWeatherApi = (SearchInput) => {
+    debugger
     let apiUrl1 = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
     let apiUrl2 = `http://api.openweathermap.org/data/2.5/forecast?q=${SearchInput}&appid=${apiKey}&units=imperial`
     fetch(apiUrl1)
