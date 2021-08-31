@@ -38,6 +38,7 @@ let getWeatherApi = (SearchInput) => {
                 for (i = 0; i < data.list.length; i += 8) {
                     fiveDays.push(data.list[i])
                 }
+                displayFiveDays()
                 console.log('five days')
                 console.log(fiveDays)
             })
@@ -69,7 +70,7 @@ let displayCurrentWeather = (res, city) => {
         mainInfo.classList = `col p-2 rounded shadow-sm bg-light` 
     let title = document.createElement("h2") //1.aa
         title.textContent = `${city} ${dateHolder}`;
-        title.classList = `bold`
+        title.classList = `heavyWeight`
     let firstP = document.createElement('p');
         firstP.textContent = `Temp: ${res.main['temp']}°F`
     let secondP = document.createElement('p')
@@ -87,14 +88,13 @@ let displayCurrentWeather = (res, city) => {
     resultsColumn.appendChild(mainInfo);
     // displaying buttons to page function
     displayButton(city)
-    displayFiveDays()
 }
 
 let displayButton = (city) => {
     let cityButtons = document.getElementById('cityButtons')
     let cityButton = document.createElement('button')
     cityButton.innerText = `${city}`
-    cityButton.classList = 'bg-secondary p-2 rounded text-light my-2' 
+    cityButton.classList = 'p-2 rounded text-dark my-2 grey-color' 
     cityButtons.appendChild(cityButton);
 }
 
@@ -104,6 +104,7 @@ let displayFiveDays = () => {
         createTitle.classList = 'col'
     let createH2 = document.createElement('h2')
         createH2.textContent = `Five-Day Forecast:`
+        createH2.classList = 'heavyWeight'
     createTitle.appendChild(createH2)
     resultsColumn.appendChild(createTitle)
     let createGrid = document.createElement("div")
@@ -111,22 +112,30 @@ let displayFiveDays = () => {
     for (i = 0; i < fiveDays.length; i++) {
         let nextDay = document.createElement('div')
         nextDay.classList = 'col m-1 five-day-item p-3'
-        let firstP = document.createElement('p')
-        firstP.textContent = `${fiveDays[i].dt_text}`
-        let secondP = document.createElement('p')
-        secondP.textContent = `${fiveDays[i].weather[0].icon}`
-        let thirdP = document.createElement('p')
-        thirdP.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
-        let forthP = document.createElement('p')
-        forthP.textContent = `Wind: ${fiveDays[i].wind['speed']} MPH`
-        let fifthP = document.createElement('p')
-        fifthP.textContent = `Humidity: ${fiveDays[i].main['humidity']} %`
+        let forecastDate = document.createElement('p')
+            let time = fiveDays[i].dt_txt.split(" ")
+            let time2 =  time[0].split("-")
+            let year = time2[0]
+            let days = time2[1]
+            let months = time2[2]
+            let formattedDate = `${months}/${days}/${year}`
+        forecastDate.textContent = `${formattedDate}`
+        forecastDate.classList = 'heavyWeight fs-3'
 
-        nextDay.appendChild(firstP)
-        nextDay.appendChild(secondP)
-        nextDay.appendChild(thirdP)
-        nextDay.appendChild(forthP)
-        nextDay.appendChild(fifthP)
+        let forecastEmoji = document.createElement('p')
+        forecastEmoji.textContent = `${fiveDays[i].weather[0].icon}`
+        let forecastTemp = document.createElement('p')
+        forecastTemp.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
+        let forecastWind = document.createElement('p')
+        forecastWind.textContent = `Wind: ${fiveDays[i].wind['speed']} MPH`
+        let forecastHumidity = document.createElement('p')
+        forecastHumidity.textContent = `Humidity: ${fiveDays[i].main['humidity']} %`
+
+        nextDay.appendChild(forecastDate)
+        nextDay.appendChild(forecastEmoji)
+        nextDay.appendChild(forecastTemp)
+        nextDay.appendChild(forecastWind)
+        nextDay.appendChild(forecastHumidity)
         
         createGrid.appendChild(nextDay);
         resultsColumn.appendChild(createGrid)
