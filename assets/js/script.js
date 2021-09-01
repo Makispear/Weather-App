@@ -1,11 +1,9 @@
 let SearchInput = document.getElementById('cityNameInput')
-// let mainEl = document.getElementsByTagName("main")
-// let searchBtn = document.getElementById('searchBtn');
 let searchFormEl = document.getElementById('searchFormEl');
 let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
-let dateHolder = "(Aug/22/2021)" // placeholder
 let resultsColumn = document.getElementById('resultsColumn')
 var fiveDays = []
+let dateHolder = "(Aug/22/2021)" // placeholder
 
         if (localStorage.length > 0) {
             debugger
