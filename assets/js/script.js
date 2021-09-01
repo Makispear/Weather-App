@@ -1,29 +1,22 @@
 let SearchInput = document.getElementById('cityNameInput')
 let searchFormEl = document.getElementById('searchFormEl');
 let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
+let cityButtons = document.getElementById('cityButtons')
 let resultsColumn = document.getElementById('resultsColumn')
 var fiveDays = []
-let dateHolder = "(Aug/22/2021)" // placeholder
 
-        if (localStorage.length > 0) {
-            debugger
-        var tempArr = []
-        var savedItems = JSON.parse(localStorage.getItem("savedButtons"))
-        tempArr[0] = savedItems
-        console.log(savedItems)
-        for(i = 0; i < tempArr.length; i++) {
-            debugger
-            let cityButtons = document.getElementById('cityButtons')
+if (localStorage.length > 0) {
+    var retrievedData = JSON.parse(localStorage.getItem("savedButtons"))
+    for(i = 0; i < retrievedData.length; i++) {
 
-            let createdButton = document.createElement('button')
-            createdButton.classList = 'p-2 rounded text-dark my-2 grey-color'
-            createdButton.setAttribute('data-button-id', `${tempArr[i]}Button`)
-            createdButton.textContent = `${tempArr[i]}`
+        let createdButton = document.createElement('button')
+        createdButton.classList = 'p-2 rounded text-dark my-2 grey-color'
+        createdButton.setAttribute('data-button-id', `${retrievedData[i]}Button`)
+        createdButton.textContent = `${retrievedData[i]}`
 
-            cityButtons.appendChild(createdButton)
-            debugger
-        }
+        cityButtons.appendChild(createdButton)
     }
+}
 
 let getWeatherApi = (SearchInput) => {
     let apiUrl1 = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
@@ -33,16 +26,14 @@ let getWeatherApi = (SearchInput) => {
         if (response.ok) {
             response.json()
             .then((data) => {
-                    console.log('(1st FETCH)')
-                    console.log(data)
                 displayCurrentWeather(data, SearchInput)
             })
         } else {
-            alert(`Error: Information Not Found! (1)`)
+            alert(`Type in a valid city name please!`)
         }
     })
     .catch((error) => {
-        alert(error);
+        console(error);
       });
 
     fetch(apiUrl2)
@@ -50,17 +41,13 @@ let getWeatherApi = (SearchInput) => {
         if (response.ok) {
             response.json()
             .then((data) => {
-                console.log('(2nd FETCH)')
-                console.log(data)
                 for (i = 0; i < data.list.length; i += 8) {
                     fiveDays.push(data.list[i])
                 }
-                console.log('FIVE DAYS:')
-                console.log(fiveDays)
                 displayFiveDays()
             })
         } else {
-            alert('Error 2')
+            console('fetch failed')
         }
     })
     .catch((error) => {
@@ -72,7 +59,6 @@ let formSubmitHandler = (e) => {
     e.preventDefault()
     let cityName = SearchInput.value
     if (cityName) {
-        console.log(`CITY NAME: ${cityName}`)
         getWeatherApi(cityName)
     } else {
         alert("Please Enter a Valid City Name!")
@@ -82,11 +68,13 @@ let formSubmitHandler = (e) => {
 
 let displayCurrentWeather = (res, city) => {
     resultsColumn.innerHTML = ""
+        let timeNow = String(new Date)
+        let timeSplit = timeNow.split(' ')
     // create items for current weather  
     let mainInfo = document.createElement('div')
         mainInfo.classList = `col p-2 rounded shadow-sm bg-light` 
     let title = document.createElement("h2") //1.aa
-        title.textContent = `${city} ${dateHolder}`;
+        title.textContent = `${city} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})`;
         title.classList = `heavyWeight`
     let firstP = document.createElement('p');
         firstP.textContent = `Temp: ${res.main['temp']}°F`
@@ -108,18 +96,15 @@ let displayCurrentWeather = (res, city) => {
 }
 
 let displayButton = (city) => {
-    let cityButtons = document.getElementById('cityButtons')
     let cityButton = document.createElement('button')
     cityButton.textContent = `${city}`
     cityButton.setAttribute('data-button-id', `${city}Button`)
     cityButton.classList = 'p-2 rounded text-dark my-2 grey-color' 
     cityButtons.appendChild(cityButton);
 
-    debugger
-    var retrievedData = JSON.parse(localStorage.getItem("savedButtons")) || [];
+    var retrievedData = JSON.parse(localStorage.getItem("savedButtons")) || []
     retrievedData.push(city)
-    localStorage.setItem('savedButtons', JSON.stringify(city))
-    debugger
+    localStorage.setItem('savedButtons', JSON.stringify(retrievedData))
 
 }
 
@@ -147,8 +132,11 @@ let displayFiveDays = () => {
         forecastDate.textContent = `${formattedDate}`
         forecastDate.classList = 'heavyWeight fs-3'
 
+ 
+
         let forecastEmoji = document.createElement('p')
-        forecastEmoji.textContent = `${fiveDays[i].weather[0].icon}`
+        forecastEmoji.textContent = `${fiveDays[i].weather[0].description}`
+        forecastEmoji.classList = 'fs-4'
         let forecastTemp = document.createElement('p')
         forecastTemp.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
         let forecastWind = document.createElement('p')

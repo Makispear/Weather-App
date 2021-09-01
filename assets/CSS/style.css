@@ -24,6 +24,14 @@ body {
 	background: rgb(92, 162, 234);
 }
 
+#searchBtn:hover {
+	background: rgb(75, 145, 216);
+}
+
+#cityNameInput:hover {
+	background-color: rgb(241, 241, 241);
+}
+
 .five-day-item {
 	background-color: rgb(50, 71, 90);
 	color: rgb(255, 255, 255);
@@ -44,4 +52,8 @@ input {
 
 .grey-color {
 	background-color: rgb(183, 183, 183);
+}
+
+.grey-color:hover {
+	background-color: rgb(163, 163, 163);
 }
