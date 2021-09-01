@@ -1,12 +1,31 @@
 let SearchInput = document.getElementById('cityNameInput')
-let mainEl = document.getElementsByTagName("main")
-let searchBtn = document.getElementById('searchBtn');
+// let mainEl = document.getElementsByTagName("main")
+// let searchBtn = document.getElementById('searchBtn');
 let searchFormEl = document.getElementById('searchFormEl');
 let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
-let dateHolder = "(Aug/22/2021)" // placebolder
+let dateHolder = "(Aug/22/2021)" // placeholder
 let resultsColumn = document.getElementById('resultsColumn')
 var fiveDays = []
-let daysCount = 5;
+
+        if (localStorage.length > 0) {
+            debugger
+        var tempArr = []
+        var savedItems = JSON.parse(localStorage.getItem("savedButtons"))
+        tempArr[0] = savedItems
+        console.log(savedItems)
+        for(i = 0; i < tempArr.length; i++) {
+            debugger
+            let cityButtons = document.getElementById('cityButtons')
+
+            let createdButton = document.createElement('button')
+            createdButton.classList = 'p-2 rounded text-dark my-2 grey-color'
+            createdButton.setAttribute('data-button-id', `${tempArr[i]}Button`)
+            createdButton.textContent = `${tempArr[i]}`
+
+            cityButtons.appendChild(createdButton)
+            debugger
+        }
+    }
 
 let getWeatherApi = (SearchInput) => {
     let apiUrl1 = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
@@ -98,11 +117,11 @@ let displayButton = (city) => {
     cityButton.classList = 'p-2 rounded text-dark my-2 grey-color' 
     cityButtons.appendChild(cityButton);
 
-
+    debugger
     var retrievedData = JSON.parse(localStorage.getItem("savedButtons")) || [];
     retrievedData.push(city)
+    localStorage.setItem('savedButtons', JSON.stringify(city))
     debugger
-    JSON.stringify(localStorage.setItem('savedButtons', city))
 
 }
 
@@ -154,23 +173,7 @@ let displayFiveDays = () => {
 
 searchFormEl.addEventListener('submit', formSubmitHandler)
 
-loadSavedButtons = () => {
-    if (JSON.parse(localStorage.getItem('savedButtons'))) {
-        var savedItems = JSON.parse(localStorage.getItem("savedButtons"))
-        console.log(savedItems)
-        debugger
-        for(i = 0; i < savedItems.length; i++) {
-            let cityButtons = document.getElementById('cityButtons')
 
-            let createdButton = document.createElement('button')
-            createdButton.classList = 'p-2 rounded text-dark my-2 grey-color'
-            createdButton.setAttribute('data-button-id', `${savedItems[i]}Button`)
-            createdButton.textContent = `${savedItems[i]}`
-
-            cityButtons.appendChild(createdButton)
-        }
-    }
-}
 
                    
 
