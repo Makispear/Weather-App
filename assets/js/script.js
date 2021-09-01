@@ -135,7 +135,7 @@ let displayFiveDays = () => {
  
 
         let forecastEmoji = document.createElement('p')
-        forecastEmoji.textContent = `${fiveDays[i].weather[0].description}`
+        forecastEmoji.innerHTML = `<img src="http://openweathermap.org/img/wn/${fiveDays[i].weather[0].icon}@2x.png">`
         forecastEmoji.classList = 'fs-4'
         let forecastTemp = document.createElement('p')
         forecastTemp.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
