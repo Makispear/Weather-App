@@ -16,7 +16,7 @@ let getWeatherApi = (SearchInput) => {
         if (response.ok) {
             response.json()
             .then((data) => {
-                    console.log('1st')
+                    console.log('(1st FETCH)')
                     console.log(data)
                 displayCurrentWeather(data, SearchInput)
             })
@@ -33,14 +33,14 @@ let getWeatherApi = (SearchInput) => {
         if (response.ok) {
             response.json()
             .then((data) => {
-                console.log('2nd data')
+                console.log('(2nd FETCH)')
                 console.log(data)
                 for (i = 0; i < data.list.length; i += 8) {
                     fiveDays.push(data.list[i])
                 }
-                displayFiveDays()
-                console.log('five days')
+                console.log('FIVE DAYS:')
                 console.log(fiveDays)
+                displayFiveDays()
             })
         } else {
             alert('Error 2')
@@ -55,7 +55,7 @@ let formSubmitHandler = (e) => {
     e.preventDefault()
     let cityName = SearchInput.value
     if (cityName) {
-        console.log(cityName)
+        console.log(`CITY NAME: ${cityName}`)
         getWeatherApi(cityName)
     } else {
         alert("Please Enter a Valid City Name!")
@@ -93,9 +93,17 @@ let displayCurrentWeather = (res, city) => {
 let displayButton = (city) => {
     let cityButtons = document.getElementById('cityButtons')
     let cityButton = document.createElement('button')
-    cityButton.innerText = `${city}`
+    cityButton.textContent = `${city}`
+    cityButton.setAttribute('data-button-id', `${city}Button`)
     cityButton.classList = 'p-2 rounded text-dark my-2 grey-color' 
     cityButtons.appendChild(cityButton);
+
+
+    var retrievedData = JSON.parse(localStorage.getItem("savedButtons")) || [];
+    retrievedData.push(city)
+    debugger
+    JSON.stringify(localStorage.setItem('savedButtons', city))
+
 }
 
 
@@ -146,6 +154,23 @@ let displayFiveDays = () => {
 
 searchFormEl.addEventListener('submit', formSubmitHandler)
 
+loadSavedButtons = () => {
+    if (JSON.parse(localStorage.getItem('savedButtons'))) {
+        var savedItems = JSON.parse(localStorage.getItem("savedButtons"))
+        console.log(savedItems)
+        debugger
+        for(i = 0; i < savedItems.length; i++) {
+            let cityButtons = document.getElementById('cityButtons')
+
+            let createdButton = document.createElement('button')
+            createdButton.classList = 'p-2 rounded text-dark my-2 grey-color'
+            createdButton.setAttribute('data-button-id', `${savedItems[i]}Button`)
+            createdButton.textContent = `${savedItems[i]}`
+
+            cityButtons.appendChild(createdButton)
+        }
+    }
+}
 
                    
 
