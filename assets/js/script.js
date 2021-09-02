@@ -158,13 +158,8 @@ let displayFiveDays = () => {
 }
 
 let buttonsHandler = (event) => {
-    var targetEl = event.target;
-    if (targetEl.matches("savedCityButton")) {
-        var cityId = targetEl.getAttribute(".target-this");
-        console.log(cityId)
-        // editTask(taskId);
-      } 
-
+    var targetEl = event.target.textContent
+    getWeatherApi(targetEl)
 }
 
 cityButtons.addEventListener('click', buttonsHandler)
