@@ -1,6 +1,7 @@
+    // VARIABLES
 let SearchInput = document.getElementById('cityNameInput')
 let searchFormEl = document.getElementById('searchFormEl');
-let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
+const apiKey = 'a162d79bf40c41aa937d1346397ac5c6' // security hazard
 let cityButtons = document.getElementById('cityButtons')
 let cityNameInput = document.getElementById('cityNameInput')
 let resultsColumn = document.getElementById('resultsColumn')
@@ -8,12 +9,15 @@ var fiveDays = []
 
 if (localStorage.length > 0) {
     var retrievedData = JSON.parse(localStorage.getItem("savedButtons"))
+    // capitalize first letter of the localStorage 
+    for (i = 0; i < retrievedData.length; i++) {
+        retrievedData[i] = retrievedData[i].charAt(0).toUpperCase() + retrievedData[i].slice(1)
+    }
+    // retrieve buttons stored in localStorage
     for(i = 0; i < retrievedData.length; i++) {
-
         let createdButton = document.createElement('button')
         createdButton.classList = `p-2 rounded text-dark my-2 grey-color target-this ${retrievedData[i]}`
         createdButton.textContent = `${retrievedData[i]}`
-
         cityButtons.appendChild(createdButton)
     }
 }
@@ -29,7 +33,7 @@ let getWeatherApi = (SearchInput) => {
                 displayCurrentWeather(data, SearchInput)
             })
         } else {
-            alert(`Type in a valid city name please!`)
+            alert(`Type In A Valid City Name Please!`)
         }
     })
     .catch((error) => {
@@ -57,8 +61,8 @@ let getWeatherApi = (SearchInput) => {
 
 let formSubmitHandler = (e) => {
     e.preventDefault()
-    let cityName = SearchInput.value
-    cityName.toLowerCase()
+    let cityName = SearchInput.value.trim().toLowerCase()
+    console.log(cityName)
     if (cityName) {
         getWeatherApi(cityName)
     } else {
@@ -86,7 +90,6 @@ let displayCurrentWeather = (res, city) => {
         thirdP.textContent = `Humidity: ${res.main['humidity']} %`
     let forthP = document.createElement('p')
         forthP.innerHTML = `<span class="iv-index">UV Index: 0.${res.main['humidity']}</span>`
-    // append to page 
     mainInfo.appendChild(title)
     mainInfo.appendChild(firstP)
     mainInfo.appendChild(secondP)
@@ -94,6 +97,7 @@ let displayCurrentWeather = (res, city) => {
     mainInfo.appendChild(forthP)
     resultsColumn.appendChild(mainInfo);
 
+    // check to see if this button is already created then continue
     if (localStorage.length > 0) {
         var checkButtons = localStorage.getItem('savedButtons')
         if (checkButtons.includes(city)) {
@@ -104,22 +108,19 @@ let displayCurrentWeather = (res, city) => {
     } else {
         displayButton(city)
     }
-
 }
 
 let displayButton = (city) => {
     let cityButton = document.createElement('button')
     let cityCapitalized = `${city.charAt(0).toUpperCase()}${city.slice(1)}`
-    cityButton.textContent = cityCapitalized
-    cityButton.classList = `p-2 rounded text-dark my-2 grey-color target-this ${city}` 
-    cityButtons.appendChild(cityButton);
-
+        cityButton.textContent = cityCapitalized
+        cityButton.classList = `p-2 rounded text-dark my-2 grey-color target-this ${city}` 
+            cityButtons.appendChild(cityButton);
     var retrievedData = JSON.parse(localStorage.getItem("savedButtons")) || []
-    retrievedData.push(city)
+        retrievedData.push(city)
+    // send this button to localStorage 
     localStorage.setItem('savedButtons', JSON.stringify(retrievedData))
-
 }
-
 
 let displayFiveDays = () => {
     let createTitle = document.createElement("div")
@@ -127,49 +128,47 @@ let displayFiveDays = () => {
     let createH2 = document.createElement('h2')
         createH2.textContent = `Five-Day Forecast:`
         createH2.classList = 'heavyWeight'
-    createTitle.appendChild(createH2)
-    resultsColumn.appendChild(createTitle)
+            createTitle.appendChild(createH2)
+                resultsColumn.appendChild(createTitle)
     let createGrid = document.createElement("div")
-    createGrid.classList = 'row'
+        createGrid.classList = 'row'
     for (i = 0; i < fiveDays.length; i++) {
         let nextDay = document.createElement('div')
-        nextDay.classList = 'col m-1 five-day-item p-3'
+            nextDay.classList = 'col m-1 five-day-item p-3'
         let forecastDate = document.createElement('p')
-            let time = fiveDays[i].dt_txt.split(" ")
-            let time2 =  time[0].split("-")
-            let year = time2[0]
-            let days = time2[1]
-            let months = time2[2]
+                // time formatting below 
+                let time = fiveDays[i].dt_txt.split(" ")
+                let time2 =  time[0].split("-")
+                let year = time2[0]
+                let days = time2[1]
+                let months = time2[2]
             let formattedDate = `${months}/${days}/${year}`
-        forecastDate.textContent = `${formattedDate}`
-        forecastDate.classList = 'heavyWeight fs-3'
-
- 
-
+            forecastDate.textContent = `${formattedDate}`
+            forecastDate.classList = 'heavyWeight fs-3'
         let forecastEmoji = document.createElement('p')
-        forecastEmoji.innerHTML = `<img src="http://openweathermap.org/img/wn/${fiveDays[i].weather[0].icon}@2x.png">`
-        forecastEmoji.classList = 'fs-4'
+            forecastEmoji.innerHTML = `<img src="http://openweathermap.org/img/wn/${fiveDays[i].weather[0].icon}@2x.png">`
+            forecastEmoji.classList = 'fs-4'
         let forecastTemp = document.createElement('p')
-        forecastTemp.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
+            forecastTemp.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
         let forecastWind = document.createElement('p')
-        forecastWind.textContent = `Wind: ${fiveDays[i].wind['speed']} MPH`
+            forecastWind.textContent = `Wind: ${fiveDays[i].wind['speed']} MPH`
         let forecastHumidity = document.createElement('p')
-        forecastHumidity.textContent = `Humidity: ${fiveDays[i].main['humidity']} %`
-
+            forecastHumidity.textContent = `Humidity: ${fiveDays[i].main['humidity']} %`
         nextDay.appendChild(forecastDate)
         nextDay.appendChild(forecastEmoji)
         nextDay.appendChild(forecastTemp)
         nextDay.appendChild(forecastWind)
         nextDay.appendChild(forecastHumidity)
-        
-        createGrid.appendChild(nextDay);
-        resultsColumn.appendChild(createGrid)
+            createGrid.appendChild(nextDay);
+                resultsColumn.appendChild(createGrid)
     }
+    // emptying fiveDays array for next use
     fiveDays = []
 }
 
 let buttonsHandler = (event) => {
-    var targetEl = event.target.textContent
+    let targetEl = event.target.textContent
+    targetEl = targetEl.toLowerCase()
     getWeatherApi(targetEl)
 }
 
