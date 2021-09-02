@@ -10,8 +10,7 @@ if (localStorage.length > 0) {
     for(i = 0; i < retrievedData.length; i++) {
 
         let createdButton = document.createElement('button')
-        createdButton.classList = 'p-2 rounded text-dark my-2 grey-color'
-        createdButton.setAttribute('data-button-id', `${retrievedData[i]}Button`)
+        createdButton.classList = `p-2 rounded text-dark my-2 grey-color target-this ${retrievedData[i]}`
         createdButton.textContent = `${retrievedData[i]}`
 
         cityButtons.appendChild(createdButton)
@@ -58,6 +57,7 @@ let getWeatherApi = (SearchInput) => {
 let formSubmitHandler = (e) => {
     e.preventDefault()
     let cityName = SearchInput.value
+    cityName.toLowerCase()
     if (cityName) {
         getWeatherApi(cityName)
     } else {
@@ -73,8 +73,9 @@ let displayCurrentWeather = (res, city) => {
     // create items for current weather  
     let mainInfo = document.createElement('div')
         mainInfo.classList = `col p-2 rounded shadow-sm bg-light` 
-    let title = document.createElement("h2") //1.aa
-        title.textContent = `${city} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})`;
+    let title = document.createElement("h2")
+    let cityCapitalized = city.charAt(0).toUpperCase() + city.slice(1)
+        title.textContent = `${cityCapitalized} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})`;
         title.classList = `heavyWeight`
     let firstP = document.createElement('p');
         firstP.textContent = `Temp: ${res.main['temp']}°F`
@@ -97,9 +98,9 @@ let displayCurrentWeather = (res, city) => {
 
 let displayButton = (city) => {
     let cityButton = document.createElement('button')
-    cityButton.textContent = `${city}`
-    cityButton.setAttribute('data-button-id', `${city}Button`)
-    cityButton.classList = 'p-2 rounded text-dark my-2 grey-color' 
+    let cityCapitalized = `${city.charAt(0).toUpperCase()}${city.slice(1)}`
+    cityButton.textContent = cityCapitalized
+    cityButton.classList = `p-2 rounded text-dark my-2 grey-color target-this ${city}` 
     cityButtons.appendChild(cityButton);
 
     var retrievedData = JSON.parse(localStorage.getItem("savedButtons")) || []
@@ -154,8 +155,20 @@ let displayFiveDays = () => {
         resultsColumn.appendChild(createGrid)
     }
     fiveDays = []
-    
 }
+
+let buttonsHandler = (event) => {
+    var targetEl = event.target;
+    if (targetEl.matches("savedCityButton")) {
+        var cityId = targetEl.getAttribute(".target-this");
+        console.log(cityId)
+        // editTask(taskId);
+      } 
+
+}
+
+cityButtons.addEventListener('click', buttonsHandler)
+
 
 searchFormEl.addEventListener('submit', formSubmitHandler)
 
