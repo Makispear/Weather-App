@@ -48,6 +48,7 @@ let getWeatherApi = (SearchInput) => {
                 for (i = 0; i < data.list.length; i += 8) {
                     fiveDays.push(data.list[i])
                 }
+                console.log(fiveDays)
                 displayFiveDays()
             })
         } else {
@@ -172,9 +173,9 @@ let buttonsHandler = (event) => {
     getWeatherApi(targetEl)
 }
 
+// When clicking saved and loaded buttons 
 cityButtons.addEventListener('click', buttonsHandler)
-
-
+// When you submit a new city
 searchFormEl.addEventListener('submit', formSubmitHandler)
 
 
