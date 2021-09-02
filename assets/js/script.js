@@ -92,8 +92,18 @@ let displayCurrentWeather = (res, city) => {
     mainInfo.appendChild(thirdP)
     mainInfo.appendChild(forthP)
     resultsColumn.appendChild(mainInfo);
-    // displaying buttons to page function
-    displayButton(city)
+
+    if (localStorage.length > 0) {
+        var checkButtons = localStorage.getItem('savedButtons')
+        if (checkButtons.includes(city)) {
+            // displaying buttons to page function
+        } else {
+        displayButton(city)
+        }
+    } else {
+        displayButton(city)
+    }
+
 }
 
 let displayButton = (city) => {
