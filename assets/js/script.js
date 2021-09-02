@@ -2,6 +2,7 @@ let SearchInput = document.getElementById('cityNameInput')
 let searchFormEl = document.getElementById('searchFormEl');
 let apiKey = 'a162d79bf40c41aa937d1346397ac5c6'
 let cityButtons = document.getElementById('cityButtons')
+let cityNameInput = document.getElementById('cityNameInput')
 let resultsColumn = document.getElementById('resultsColumn')
 var fiveDays = []
 
@@ -63,7 +64,7 @@ let formSubmitHandler = (e) => {
     } else {
         alert("Please Enter a Valid City Name!")
     }
-    cityName.value = "";
+    cityNameInput.value = "";
 }
 
 let displayCurrentWeather = (res, city) => {
