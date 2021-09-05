@@ -5,8 +5,9 @@ const apiKey = 'a162d79bf40c41aa937d1346397ac5c6' // security hazard
 let cityButtons = document.getElementById('cityButtons')
 let cityNameInput = document.getElementById('cityNameInput')
 let resultsColumn = document.getElementById('resultsColumn')
-var fiveDays = []
+// var fiveDays = []
 
+// LOAD BUTTONS 
 if (localStorage.length > 0) {
     var retrievedData = JSON.parse(localStorage.getItem("savedButtons"))
     // capitalize first letter of the localStorage 
@@ -22,15 +23,27 @@ if (localStorage.length > 0) {
     }
 }
 
+let fetchUVindex = (lat, long, SearchInput) => {
+fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=${apiKey}&units=imperial`)
+.then((response) => {
+    if (response.ok) {
+        response.json()
+        .then((data) => {
+            console.log(data)
+            displayCurrentWeather(data, SearchInput)
+        })
+    } 
+    })
+}
+
 let getWeatherApi = (SearchInput) => {
     let apiUrl1 = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
-    let apiUrl2 = `http://api.openweathermap.org/data/2.5/forecast?q=${SearchInput}&appid=${apiKey}&units=imperial`
     fetch(apiUrl1)
     .then((response) => {
         if (response.ok) {
             response.json()
             .then((data) => {
-                displayCurrentWeather(data, SearchInput)
+                fetchUVindex(data.coord.lat, data.coord.lon, SearchInput)
             })
         } else {
             alert(`Type In A Valid City Name Please!`)
@@ -39,35 +52,15 @@ let getWeatherApi = (SearchInput) => {
     .catch((error) => {
         console(error);
       });
-
-    fetch(apiUrl2)
-    .then((response) => {
-        if (response.ok) {
-            response.json()
-            .then((data) => {
-                for (i = 0; i < data.list.length; i += 8) {
-                    fiveDays.push(data.list[i])
-                }
-                console.log(fiveDays)
-                displayFiveDays()
-            })
-        } else {
-            console('fetch failed')
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-    })
 }
 
 let formSubmitHandler = (e) => {
     e.preventDefault()
     let cityName = SearchInput.value.trim().toLowerCase()
-    console.log(cityName)
     if (cityName) {
         getWeatherApi(cityName)
     } else {
-        alert("Please Enter a Valid City Name!")
+        
     }
     cityNameInput.value = "";
 }
@@ -78,19 +71,19 @@ let displayCurrentWeather = (res, city) => {
         let timeSplit = timeNow.split(' ')
     // create items for current weather  
     let mainInfo = document.createElement('div')
-        mainInfo.classList = `col p-2 rounded shadow-sm bg-light` 
+        mainInfo.classList = `col p-2 rounded shadow-sm` 
     let title = document.createElement("h2")
     let cityCapitalized = city.charAt(0).toUpperCase() + city.slice(1)
-        title.textContent = `${cityCapitalized} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})`;
+        title.innerHTML = `${cityCapitalized} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})<img src="http://openweathermap.org/img/wn/${res.current.weather[0].icon}@2x.png">`;
         title.classList = `heavyWeight`
     let firstP = document.createElement('p');
-        firstP.textContent = `Temp: ${res.main['temp']}°F`
+        firstP.textContent = `Temp: ${res.current.temp}°F`
     let secondP = document.createElement('p')
-        secondP.textContent = `Wind: ${res.wind['speed']} MPH`
+        secondP.textContent = `Wind: ${res.current.wind_speed} MPH`
     let thirdP = document.createElement('p')
-        thirdP.textContent = `Humidity: ${res.main['humidity']} %`
+        thirdP.textContent = `Humidity: ${res.current.humidity} %`
     let forthP = document.createElement('p')
-        forthP.innerHTML = `<span class="iv-index">UV Index: 0.${res.main['humidity']}</span>`
+        forthP.textContent = `UV Index: ${res.current.uvi}`
     mainInfo.appendChild(title)
     mainInfo.appendChild(firstP)
     mainInfo.appendChild(secondP)
@@ -103,15 +96,16 @@ let displayCurrentWeather = (res, city) => {
         var checkButtons = localStorage.getItem('savedButtons')
         if (checkButtons.includes(city)) {
             // displaying buttons to page function
+            displayFiveDays(res)
         } else {
-        displayButton(city)
+        displayButton(res, city)
         }
     } else {
-        displayButton(city)
+        displayButton(res, city)
     }
 }
 
-let displayButton = (city) => {
+let displayButton = (res, city) => {
     let cityButton = document.createElement('button')
     let cityCapitalized = `${city.charAt(0).toUpperCase()}${city.slice(1)}`
         cityButton.textContent = cityCapitalized
@@ -121,9 +115,10 @@ let displayButton = (city) => {
         retrievedData.push(city)
     // send this button to localStorage 
     localStorage.setItem('savedButtons', JSON.stringify(retrievedData))
+    displayFiveDays(res)
 }
 
-let displayFiveDays = () => {
+let displayFiveDays = (res) => {
     let createTitle = document.createElement("div")
         createTitle.classList = 'col'
     let createH2 = document.createElement('h2')
@@ -132,29 +127,28 @@ let displayFiveDays = () => {
             createTitle.appendChild(createH2)
                 resultsColumn.appendChild(createTitle)
     let createGrid = document.createElement("div")
-        createGrid.classList = 'row'
-    for (i = 0; i < fiveDays.length; i++) {
+        createGrid.classList = 'row w-100'
+    for (i = 0; i < 5; i++) {
         let nextDay = document.createElement('div')
+        if (i === 0) {
+            nextDay.classList = 'col-md m-1 five-day-item p-3'
+        } else {
             nextDay.classList = 'col m-1 five-day-item p-3'
+        }
         let forecastDate = document.createElement('p')
-                // time formatting below 
-                let time = fiveDays[i].dt_txt.split(" ")
-                let time2 =  time[0].split("-")
-                let year = time2[0]
-                let days = time2[1]
-                let months = time2[2]
-            let formattedDate = `${months}/${days}/${year}`
+            let resDate = moment.unix(res.daily[i].dt)
+                let formattedDate = resDate.format("L")
             forecastDate.textContent = `${formattedDate}`
             forecastDate.classList = 'heavyWeight fs-3'
         let forecastEmoji = document.createElement('p')
-            forecastEmoji.innerHTML = `<img src="http://openweathermap.org/img/wn/${fiveDays[i].weather[0].icon}@2x.png">`
+            forecastEmoji.innerHTML = `<img src="http://openweathermap.org/img/wn/${res.daily[i].weather[0].icon}@2x.png">`
             forecastEmoji.classList = 'fs-4'
         let forecastTemp = document.createElement('p')
-            forecastTemp.textContent = `Temp: ${fiveDays[i].main['temp']}°F`
+            forecastTemp.textContent = `Temp: ${res.daily[i].temp.max}°F`
         let forecastWind = document.createElement('p')
-            forecastWind.textContent = `Wind: ${fiveDays[i].wind['speed']} MPH`
+            forecastWind.textContent = `Wind: ${res.daily[i].wind_speed} MPH`
         let forecastHumidity = document.createElement('p')
-            forecastHumidity.textContent = `Humidity: ${fiveDays[i].main['humidity']} %`
+            forecastHumidity.textContent = `Humidity: ${res.daily[i].humidity} %`
         nextDay.appendChild(forecastDate)
         nextDay.appendChild(forecastEmoji)
         nextDay.appendChild(forecastTemp)
@@ -164,7 +158,7 @@ let displayFiveDays = () => {
                 resultsColumn.appendChild(createGrid)
     }
     // emptying fiveDays array for next use
-    fiveDays = []
+    // fiveDays = []
 }
 
 let buttonsHandler = (event) => {
