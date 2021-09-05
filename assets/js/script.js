@@ -37,7 +37,7 @@ fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&ap
 }
 
 let getWeatherApi = (SearchInput) => {
-    let apiUrl1 = `http://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
+    let apiUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${SearchInput}&appid=${apiKey}&units=imperial`
     fetch(apiUrl1)
     .then((response) => {
         if (response.ok) {
@@ -74,7 +74,7 @@ let displayCurrentWeather = (res, city) => {
         mainInfo.classList = `col p-2 rounded shadow-sm` 
     let title = document.createElement("h2")
     let cityCapitalized = city.charAt(0).toUpperCase() + city.slice(1)
-        title.innerHTML = `${cityCapitalized} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})<img src="http://openweathermap.org/img/wn/${res.current.weather[0].icon}@2x.png">`;
+        title.innerHTML = `${cityCapitalized} (${timeSplit[1]}/${timeSplit[2]}/${timeSplit[3]})<img src="https://openweathermap.org/img/wn/${res.current.weather[0].icon}@2x.png">`;
         title.classList = `heavyWeight`
     let firstP = document.createElement('p');
         firstP.textContent = `Temp: ${res.current.temp}°F`
@@ -141,7 +141,7 @@ let displayFiveDays = (res) => {
             forecastDate.textContent = `${formattedDate}`
             forecastDate.classList = 'heavyWeight fs-3'
         let forecastEmoji = document.createElement('p')
-            forecastEmoji.innerHTML = `<img src="http://openweathermap.org/img/wn/${res.daily[i].weather[0].icon}@2x.png">`
+            forecastEmoji.innerHTML = `<img src="https://openweathermap.org/img/wn/${res.daily[i].weather[0].icon}@2x.png">`
             forecastEmoji.classList = 'fs-4'
         let forecastTemp = document.createElement('p')
             forecastTemp.textContent = `Temp: ${res.daily[i].temp.max}°F`
