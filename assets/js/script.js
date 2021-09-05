@@ -50,8 +50,8 @@ let getWeatherApi = (SearchInput) => {
         }
     })
     .catch((error) => {
-        console(error);
-      });
+        console.log(error);
+        });
 }
 
 let formSubmitHandler = (e) => {
@@ -157,8 +157,6 @@ let displayFiveDays = (res) => {
             createGrid.appendChild(nextDay);
                 resultsColumn.appendChild(createGrid)
     }
-    // emptying fiveDays array for next use
-    // fiveDays = []
 }
 
 let buttonsHandler = (event) => {
