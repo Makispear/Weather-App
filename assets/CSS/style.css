@@ -32,10 +32,6 @@ body {
 	background-color: rgb(241, 241, 241);
 }
 
-/* #resultsColumn {
-	background-color: rgb(158, 158, 158);
-} */
-
 .five-day-item {
 	background-color: rgb(50, 71, 90);
 	color: rgb(255, 255, 255);
@@ -61,8 +57,3 @@ input {
 .grey-color:hover {
 	background-color: rgb(163, 163, 163);
 }
-/* 
-#cityButtons button:hover::before {
-	position: absolute;
-	inser: 
-} */

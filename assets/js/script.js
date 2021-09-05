@@ -5,7 +5,6 @@ const apiKey = 'a162d79bf40c41aa937d1346397ac5c6' // security hazard
 let cityButtons = document.getElementById('cityButtons')
 let cityNameInput = document.getElementById('cityNameInput')
 let resultsColumn = document.getElementById('resultsColumn')
-// var fiveDays = []
 
 // LOAD BUTTONS 
 if (localStorage.length > 0) {
@@ -23,13 +22,13 @@ if (localStorage.length > 0) {
     }
 }
 
+// GETTING THE WEATHER INFO 
 let fetchUVindex = (lat, long, SearchInput) => {
 fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=${apiKey}&units=imperial`)
 .then((response) => {
     if (response.ok) {
         response.json()
         .then((data) => {
-            console.log(data)
             displayCurrentWeather(data, SearchInput)
         })
     } 
