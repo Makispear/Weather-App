@@ -18,34 +18,33 @@
         <!-- nav -->
         <div id="title" class="row">
             <div class="col">
-                <h1 class="p-2 text-center text-light fw-bold">Weather<span class="text-warning fw-normal"><i class="fas fa-sun"></i></span>App</h1>
+                <h1 class="p-2 text-center text-light fw-bold">Weather Dashboard</h1>
             </div>
         </div>
         <!-- search side  -->
         <div class="row">
             <!-- form  -->
-            <div class="col-3 text-dark rounded p-2">
+            <div class="col-lg-3 text-dark rounded p-2">
                 <!-- search  -->
                 <div class="card col p-1">
                     <form id="searchFormEl" class="card-body d-flex flex-column">
-                        <label for="search" class="form-label p-1 m-1 fs-2">Search for a city:</label>
-                        <input name="city" type="text" autofocus="true" id="cityNameInput" class="form-input  p-2 m-1" placeholder="Tokyo">
+                        <label for="search" class="form-label p-1 m-1 fs-2 heavyWeight">Search for a city:</label>
+                        <input name="city" type="text" autofocus="true" id="cityNameInput" class="form-input p-2 m-1 rounded-3" placeholder="San Diego">
                         <button id="searchBtn" type="submit" class="btn text-light p-2 m-1">Search</button>
                     </form>
                 </div>
                 <!-- cities  -->
                 <div id="cityButtons" class="d-flex flex-column">
-
+                    
                 </div>
             </div>
             <!-- results  -->
-            <div id="resultsColumn" class="col-9 p-2 text-dark">
-
+            <div id="resultsColumn" class="col-lg-9 p-2 text-dark">
             </div>
         </div>
 
     </main>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
     <script src="assets/js/script.js"></script>
 </body>
 </html>
