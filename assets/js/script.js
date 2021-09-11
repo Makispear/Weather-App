@@ -29,6 +29,7 @@ fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&ap
     if (response.ok) {
         response.json()
         .then((data) => {
+            console.log(data)
             displayCurrentWeather(data, SearchInput)
         })
     } 
@@ -82,7 +83,14 @@ let displayCurrentWeather = (res, city) => {
     let thirdP = document.createElement('p')
         thirdP.textContent = `Humidity: ${res.current.humidity} %`
     let forthP = document.createElement('p')
-        forthP.textContent = `UV Index: ${res.current.uvi}`
+        forthP.innerHTML = `UV Index: <span class='colored'>${res.current.uvi}</span>`  
+        if (2  >= Math.floor(res.current.uvi)) {
+            forthP.classList = "bg-success d-inline border rounded-2 p-1 text-white"
+        } else if (5  >= Math.floor(res.current.uvi)) {
+            forthP.classList = 'bg-warning d-inline border rounded-2 p-1 text-white'
+        } else {
+            forthP.classList = 'bg-danger d-inline border rounded-2 p-1 text-white'
+        }
     mainInfo.appendChild(title)
     mainInfo.appendChild(firstP)
     mainInfo.appendChild(secondP)
